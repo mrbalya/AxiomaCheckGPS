@@ -1,0 +1,86 @@
+-- get list of visits
+select c.morionid, t.gps_lat, t.gps_lng, t.gps_accuracy
+from info_task t
+inner join info_company c on t.company_id = c.id
+where t.gps_lat is not null
+and c.morionid is not null
+order by c.morionid, t.gps_accuracy
+
+
+select * from info_company where name = 'test 12321'
+
+select co.morionid, ci.name, street, Building, blddop, Apartment, streetukr, gps_la, gps_lo, * 
+from info_company co
+inner join info_city ci on co.City_id = ci.id
+where blddop is not null
+or Apartment is not null
+or streetukr is not null
+
+
+select top 32
+c.id
+, c.morionid
+, isnull(c.PostCode, 0) as [PostCode]
+, co.name as [country]
+, r.name as [region] -- + ' область' 
+, ct.Name as [city_type]
+, ci.name as [city]
+, st.Name as [street_type]
+, c.street as [street]
+, c.Building as [building]
+, replace(isnull(c.gps_la, 0), ',', '.') as [gps_la]
+, replace(isnull(c.gps_lo, 0), ',', '.') as [gps_lo]
+, c.name
+from info_company c
+inner join info_country co on c.country_id = co.id
+inner join info_region r on c.Region_Id = r.id
+inner join info_city ci on c.City_id = ci.id
+inner join info_dictionary ct on ci.citytype_id = ct.id
+inner join info_dictionary st on c.streettype_id = st.id
+where c.morionid is not null
+--and c.morionid = 406192
+order by co.name, r.name, ci.name, st.Name, c.Building
+
+select * From info_city
+select top 100 * From info_company where Apartment is not null
+
+----Check distance by tasks
+select gps_date, replace(convert(varchar(16),gps_lat), ',','.'), replace(convert(varchar(16),gps_lng), ',','.'),*
+from info_task 
+where company_id = 388640
+and gps_lat is not null
+
+select top 10 
+c.id
+, c.morionid
+, isnull(c.PostCode, 0) as [PostCode]
+, co.name as [country]
+, r.name as [region] -- + ' область' 
+, ct.Name as [city_type]
+, ci.name as [city]
+, st.Name as [street_type]
+, c.street as [street]
+, c.Building as [building]
+, replace(isnull(c.gps_la, 0), ',', '.') as [gps_la]
+, replace(isnull(c.gps_lo, 0), ',', '.') as [gps_lo]
+, c.name
+from info_company c
+inner join info_country co on c.country_id = co.id
+inner join info_region r on c.Region_Id = r.id
+inner join info_city ci on c.City_id = ci.id
+inner join info_dictionary ct on ci.citytype_id = ct.id
+inner join info_dictionary st on c.streettype_id = st.id
+where c.morionid is not null
+and exists 
+	(select 1
+	from info_task 
+	where company_id = c.id
+	and gps_lat is not null
+	and gps_lng is not null)
+and not exists 
+	(select 1
+	from info_task 
+	where company_id = c.id
+	and dbo.distance(convert(float, replace(c.gps_la, ',','.'))
+					,convert(float, replace(c.gps_lo, ',','.'))
+					, gps_lat, gps_lng) < 500)

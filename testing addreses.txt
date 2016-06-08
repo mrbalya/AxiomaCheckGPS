@@ -1,0 +1,9 @@
++	вул. Українська, 98/1, Шепетівка, Хмельницька область
++	Україна, Хмельницька область, Шепетівка, вулиця Українська, 98/1
++	Ukrainska St, 98/1, Shepetivka, Khmel'nyts'ka oblast, Ukraina
++	Ukrainska street, 98/1, Shepetovka, Khmelnytskaya oblast, Ukraine
+-	Украина, Хмельницкая область, Шепетовка, улица Украинская, 98/1
+-	улица Украинская, 98/1, Шепетовка, Хмельницкая область, Украина
+-	Ukraine, Khmelnytsky region, Shepetivka, Ukrainian street, 98/1
+-	Ukraine, Khmelnytsky region, Shepetivka, Ukrainska street, 98/1
+-	Ukraine, Khmelnytsky region, Shepetivka, Ukraiinska street, 98/1
